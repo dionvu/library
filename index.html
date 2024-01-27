@@ -15,10 +15,17 @@
   </div>
   <div id="book-list">
   </div>
-  <dialog>hi lol
-    <form id"form">
-      <label for="pages">Pages in book:</label>
-      <input type="number" min="0" id="pages" name="page-numbers" value="">
+  <dialog>
+    <form>
+      <label for="title">title:</label>
+      <input type="name" id="title" name="title" placeholder="Heart of Darkness" required>
+
+      <label for="author">author:</label>
+      <input type="name" id="author" name="author" required placeholder="Jane Austen">
+
+      <label for="pages">pages in book:</label>
+      <input type="number" min="0" id="pages" name="page-numbers" required placeholder="420">
+
       <button type="submit">Add</button>
     </form>
   </dialog>

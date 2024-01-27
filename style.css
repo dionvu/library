@@ -5,7 +5,8 @@ body {
 
 #header {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
+  align-items: center;
   background: lightgrey;
   width: 100vw;
   height: 70px;
@@ -25,4 +26,23 @@ body {
 
 .delete-button {
   height: 25px;
+}
+
+#create-book {
+  font-size: 2rem;
+  height: 50px;
+
+}
+
+dialog {
+  height: 300px;
+  width: 400px;
+  border: 2px black solid;
+  border-radius: 15px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
