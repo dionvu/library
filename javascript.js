@@ -1,14 +1,12 @@
 const library = [];
-const entryWidth = '500px';
-const entryHeight = '250px';
 
 const acotar = new Book("A Court of Thorns and Roses", "Sarah J. Maas", 120, false);
 const acotar1 = new Book("A Court of Mist and Fury", "Sarah J. Maas", 420, false);
 
 // DOM elements
 const bookList = document.getElementById("book-list");
-const header = document.getElementById("header");
-const addButton = document.getElementById("create-book");
+const dialog = document.querySelector("dialog");
+const form = document.querySelector('form');
 
 function Book(title, author, pages, read) {
   this.title = title;
@@ -21,69 +19,87 @@ Book.prototype.addBookToLibrary = function() {
   library.push(this);
 }
 
-
 function displayBooks(library) {
   for (let i = 0; i < library.length; i++) {
-    const box = document.createElement("div");
+    const book = document.createElement("div");
+    book.classList.add('book');
 
-    box.style.cssText = `
-      height: ${entryHeight};
-      width: ${entryWidth};
+    book.style.cssText = `
+      height: 250px;
+      width: 500px;
       border: black solid 1px;
       padding: 10px;
     `;
 
-    const boxTitle = document.createElement("h2");
-    boxTitle.textContent = library[i].title;
-    box.appendChild(boxTitle);
+    const bookTitle = document.createElement("h2");
+    bookTitle.textContent = library[i].title;
+    book.appendChild(bookTitle);
 
-    const boxAuthor = document.createElement("p");
-    boxAuthor.textContent = "By: " + library[i].author;
-    box.appendChild(boxAuthor);
+    const bookAuthor = document.createElement("p");
+    bookAuthor.textContent = "By: " + library[i].author;
+    book.appendChild(bookAuthor);
 
-    const boxPages = document.createElement("p");
-    boxPages.textContent = "Pages: " + library[i].pages;
-    box.appendChild(boxPages);
+    const bookPages = document.createElement("p");
+    bookPages.textContent = "Pages: " + library[i].pages;
+    book.appendChild(bookPages);
 
-    const boxButton = document.createElement("button");
-    boxButton.addEventListener('click', () => {
+    const bookRead = document.createElement("button");
+    bookRead.textContent = "not read";
+    bookRead.style.cssText = `
+      margin: 10px;
+      background: red;
+      border-radius: 5px;
+      padding: 3px;
+    `;
 
-      const index = library.findIndex(book => book.title == boxTitle.textContent);
-      library.splice(index, 1);
-      box.remove();
-
-      for (let i = 0; i < library.length; i++) {
-        console.log(library[i]);
+    bookRead.addEventListener('click', () => {
+      if (library[i].read === false) {
+        library[i].read = true;
+        bookRead.style.background = 'green';
+        bookRead.textContent = 'read';
+      }
+      else {
+        library[i].read = false;
+        bookRead.style.background = 'red';
+        bookRead.textContent = 'not read';
       }
     });
+    book.appendChild(bookRead);
 
-    boxButton.classList.add('delete-button');
+    const bookButton = document.createElement("button");
+    bookButton.addEventListener('click', () => {
 
-    box.appendChild(boxButton);
+      const index = library.findIndex(book => book.title == bookTitle.textContent);
+      library.splice(index, 1);
+      book.remove();
+    });
 
-    bookList.appendChild(box);
+    bookButton.classList.add('delete-button');
+
+    book.appendChild(bookButton);
+
+    bookList.appendChild(book);
   }
 }
 
-const dialog = document.querySelector("dialog");
 
-addButton.addEventListener('click', () => {
+document.getElementById("create-book").addEventListener('click', () => {
   dialog.showModal();
 });
-
-const form = document.querySelector("form");
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
 
   var pages = document.getElementById('pages').value;
+  var title = document.getElementById('title').value;
+  var author = document.getElementById('author').value;
 
   console.log(pages);
 
   dialog.close();
   form.reset();
 
-  const newBook = new Book("lol", "hi", pages, false);
+  const newBook = new Book(title, author, pages, false);
 
   newBook.addBookToLibrary();
 
@@ -95,4 +111,3 @@ acotar.addBookToLibrary();
 acotar1.addBookToLibrary();
 
 displayBooks(library);
-
